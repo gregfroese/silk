@@ -100,6 +100,7 @@ class SilkDateTime extends \silk\core\Object
 	function to_format_string()
 	{
 		$format = '%x %X';
+		$format = "%F %T";
 
 		$user = UserSession::get_current_user();
 		//if ($user != null)

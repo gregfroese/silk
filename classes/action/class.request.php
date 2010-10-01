@@ -91,7 +91,19 @@ class Request extends Object
 				}
 				
 				//Do it to it
-				$controller->run_action($params['action'], $params);
+				$config = load_config();
+				if( isset( $config["acl"] )) {
+					if( $config["acl"] == true ) {
+						$acl = new \silk\auth\AclController();
+						if( $acl->allowed( array( "controller"=>$class_name ))) {
+							$controller->run_action($params['action'], $params);
+						}
+					} else {
+						$controller->run_action($params['action'], $params);
+					}
+				} else {
+					$controller->run_action($params['action'], $params);
+				}
 			}
 		}
 		//TODO: Do some kind of 404/500 error page handling here through Response
