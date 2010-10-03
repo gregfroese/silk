@@ -92,7 +92,7 @@ class Request extends Object
 				
 				//Do it to it
 				$config = load_config();
-				if( isset( $config["acl"] )) {
+				if( isset( $config["acl"] ) && class_exists( "AclController" )) {
 					if( $config["acl"] == true ) {
 						$acl = new \AclController();
 						$result = $acl->allowed( array( "controller"=>$class_name, "action"=>$params["action"] ));
