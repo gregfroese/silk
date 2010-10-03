@@ -117,7 +117,7 @@ class User extends ActiveRecord
 
 	function setup($first_time = false)
 	{
-		$this->create_has_and_belongs_to_many_association('groups', 'group', 'user_groups', 'group_id', 'user_id');
+		$this->create_has_and_belongs_to_many_association('groups', 'silk\auth\Group', 'user_groups', 'group_id', 'user_id');
 		$this->create_has_and_belongs_to_many_association("mygroups", "group", "user_groups", "group_id", "user_id");
 	}
 
