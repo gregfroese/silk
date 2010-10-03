@@ -94,9 +94,13 @@ class Request extends Object
 				$config = load_config();
 				if( isset( $config["acl"] )) {
 					if( $config["acl"] == true ) {
-						$acl = new \silk\auth\AclController();
-						if( $acl->allowed( array( "controller"=>$class_name ))) {
+						$acl = new \AclController();
+						$result = $acl->allowed( array( "controller"=>$class_name, "action"=>$params["action"] ));
+						if( $result ) {
 							$controller->run_action($params['action'], $params);
+						} else {
+							//TODO: make a proper excetion
+							echo "Acl denied for $class_name"; die;
 						}
 					} else {
 						$controller->run_action($params['action'], $params);
@@ -396,6 +400,13 @@ class ControllerNotFoundException extends \Exception
 class ViewNotFoundException extends \Exception
 {
 
+}
+
+class AclDenied extends \Exception
+{
+	public function __construct( $class_name ) {
+		echo "Acl denied to $class_name";
+	}
 }
 
 # vim:ts=4 sw=4 noet
