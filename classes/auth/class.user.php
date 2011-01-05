@@ -99,8 +99,29 @@ class User extends ActiveRecord
 					$this->add_validation_error(lang('The passwords do not match'));
 				}
 			}
+		} else {
+			$this->add_validation_error('Username cannot be blank');
+		}
+
+		//make sure we have a name
+		if( $this->first_name == "" ) {
+			$this->add_validation_error( "First name cannot be blank" );
+		}
+		if( $this->last_name == "" ) {
+			$this->add_validation_error( "Last name cannot be blank" );
 		}
 		
+		//make sure we have passwords and they match
+		if( isset( $this->confirm_password )) {
+			if( $this->password != \silk\auth\UserSession::encode_password( $this->confirm_password )) {
+				$this->add_validation_error( "Passwords do not match" );
+			} else {
+				if( strlen( $this->confirm_password ) < 5 ) {
+					$this->add_validation_error( "Password is too short" );
+				}
+			}
+		}
+
 		//Make sure the open id is unique
 		if ($this->openid != '')
 		{
