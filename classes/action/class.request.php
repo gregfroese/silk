@@ -266,6 +266,9 @@ class Request extends Object
 			
 			if ($result == '')
 				$result = '/';
+			if(substr($result,0,1) != "/") {
+				$result = "/".$result;
+			}
 			
 			return $result;
 		}
